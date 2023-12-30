@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Mi red Social</title>
+    <!-- Agrega enlaces a los archivos de Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/style.css" />
+    <style>
+      body {
+        background-color: #1a1a1a;
+        color: #ffffff;
+        font-family: "Helvetica Neue", sans-serif;
+        height: 100vh;
+        margin: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .container {
+        width: 100%;
+        max-width: 800px; /* Ajusta el ancho máximo según sea necesario */
+        text-align: center;
+        padding: 20px;
+        box-sizing: border-box;
+      }
+
+      header {
+        margin-bottom: 30px;
+      }
+
+      .main {
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        flex-wrap: wrap;
+      }
+
+      .card {
+        background-color: #333333;
+        color: #ffffff;
+        margin-bottom: 20px;
+        padding: 40px; /* Ajusta el padding para hacer la card más grande */
+        border: 1px solid #444444;
+        border-radius: 10px;
+        width: 50%; /* Se ajusta el ancho para que se ajusten en una fila */
+        min-height: 300px;
+        box-sizing: border-box;
+      }
+
+      .box-centering {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 300px;
+      }
+
+      .card form {
+        margin-top: 20px;
+      }
+
+      .title {
+        font-size: 24px;
+        margin-bottom: 20px;
+      }
+
+      .hidden {
+        display: none;
+      }
+
+      footer {
+        margin-top: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <h1>Mi red</h1>
+      </header>
+      <div class="main">
+        <div id="loginCard" class="card">
+          <div class="box-centering">
+            <div class="title">Iniciar Sesión</div>
+            <form action="" method="post">
+                <div class="input-group flex-nowrap mb-2">
+                    <span class="input-group-text" id="addon-wrapping">@</span>
+                    <input type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="addon-wrapping">
+                  </div>
+              <input
+                type="password"
+                name="password"
+                class="form-control mb-2"
+                placeholder="Contraseña"
+                required
+              />
+              <input
+                type="submit"
+                class="btn btn-primary mb-3"
+                value="Iniciar sesión"
+              />
+            </form>
+            <p class="toggle-link" onclick="toggleForm('register')">
+              ¿No tienes cuenta? Regístrate
+            </p>
+          </div>
+        </div>
+        <div id="registerCard" class="card hidden">
+          <div class="box-centering">
+            <div class="title">Regístrate</div>
+          <form action="" method="post">
+            <input
+              type="text"
+              name="name"
+              class="form-control mb-2"
+              placeholder="Nombre completo"
+              required
+            />
+            <input
+              type="text"
+              name="email"
+              class="form-control mb-2"
+              placeholder="Email"
+              required
+            />
+            <input
+              type="password"
+              name="password"
+              class="form-control mb-2"
+              placeholder="Contraseña"
+              required
+            />
+            <input type="submit" class="btn btn-primary mb-3" value="Registrarse" />
+          </form>
+          <p class="toggle-link" onclick="toggleForm('login')">
+            ¿Ya tienes cuenta? Iniciar Sesión
+          </p>
+          </div>
+        </div>
+      </div>
+      <footer>
+        <p>Red Social &copy; 2017</p>
+      </footer>
+    </div>
+
+    <!-- Agrega los scripts de Bootstrap al final del cuerpo para mejorar el rendimiento -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
+    <script>
+      function toggleForm(formToShow) {
+        if (formToShow === "register") {
+          document.getElementById("loginCard").classList.add("hidden");
+          document.getElementById("registerCard").classList.remove("hidden");
+        } else {
+          document.getElementById("loginCard").classList.remove("hidden");
+          document.getElementById("registerCard").classList.add("hidden");
+        }
+      }
+    </script>
+  </body>
+</html>
