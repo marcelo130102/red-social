@@ -11,6 +11,7 @@
       crossorigin="anonymous"
     />
     <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-WZCs/SZJhB8zCe2IFU3s54il8ymttvhYWqZf3UFsXyWkc5Iy9GnYg1kAeHcweNUpUXfu8ZPsJOwZD3K0ll/ElQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <style>
       body {
         background-color: #18191A;
@@ -117,14 +118,14 @@
       </div> -->
     </nav>
     <div class="landing-menu">
-        <lu class="list-menu">
-            <li>Inicio</li>
-            <li>Acerca de</li>
-            <li>Servicios</li>
-            <li>Contacto</li>
-        </lu>
-
-    </div>
+      <ul class="list-menu">
+          <li><i class="fas fa-home"></i> Inicio</li>
+          <li><i class="fas fa-info-circle"></i> Acerca de</li>
+          <li><i class="fas fa-cogs"></i> Servicios</li>
+          <li><i class="fas fa-envelope"></i> Contacto</li>
+          <li><a href="{{ url_for('logout') }}">Logout</a></li>
+      </ul>
+  </div>
     <div class="col-9">
       <h1>Post</h1>
       {% for post in posts %}

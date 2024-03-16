@@ -1,10 +1,13 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request, jsonify as JSONResponse, url_for, session, redirect
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from datetime import datetime
+import base64
+
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
+app.secret_key = 'super secret key'
 
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
@@ -43,16 +46,58 @@ class Post(db.Model):
         return '<Post %r>' % self.content
 
 
+def check_auth(username, password):
+    """Esta función es llamada para verificar si un usuario es válido."""
+    user = User.query.filter_by(username=username).first()
+    if user:
+        return user.password == password
+    return False
+
+def requires_auth(view):
+    def wrapper_view(*args, **kwargs):
+        print(session)
+        if 'user' not in session or not check_auth(session.get('user'), session.get('password')):
+            if request.endpoint == 'index':
+                return redirect(url_for('login'))
+        return view(*args, **kwargs)
+    wrapper_view.__name__ = view.__name__
+    return wrapper_view
+
 # Rutas
-@app.route('/login')
+@app.route('/login', methods=['GET', 'POST'])
 def login():
-    # Ejemplo de posts (puedes reemplazar esto con lógica de base de datos)
-    return render_template('login.html')
+    if request.method == 'POST':
+        auth_header = request.headers.get('Authorization')
+        # Lógica para verificar usuario
+        if auth_header and auth_header.startswith('Basic '):
+            #Decodificar el header
+            enconded_creds = auth_header[len('Basic '):]
+            decoded_creds = base64.b64decode(enconded_creds).decode('utf-8')
+            username, password = decoded_creds.split(':')
+            # Verificar si el usuario existe
+            if check_auth(username, password):
+                session['user'] = username
+                session['password'] = password
+                return redirect(url_for('index'))
+            else:
+                return JSONResponse({'error': 'Usuario o contraseña incorrectos'}, status=401)          
+    if request.method == 'GET':
+        return render_template('login.html')
+
+    return JSONResponse({'error': 'Método no permitido'}, status=405)
+
+
+
+@app.route('/logout')
+def logout():
+    session.pop('username', None)
+    session.pop('password', None)
+    return redirect(url_for('login'))
 
 @app.route('/')
+@requires_auth
 def index():
     # Ejemplo de posts (puedes reemplazar esto con lógica de base de datos)
-
     posts = []
     all_users = User.query.all()
     for user in all_users:
